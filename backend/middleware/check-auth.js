@@ -4,10 +4,7 @@ module.exports = (req, res, next) => {
   try {
     // console.log("headers", req.headers.authorization)
     const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(
-      token,
-      "Some_salting_string_which_needs_to_be_even_longer"
-    );
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
     req.userData = { email: decodedToken.email, userId: decodedToken.id };
     next();
   } catch (error) {

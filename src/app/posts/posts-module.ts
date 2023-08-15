@@ -11,6 +11,8 @@ import { AppRoutingModule } from '../app-routing.module';
   imports: [
     AppRoutingModule,
     CommonModule,
-    ReactiveFormsModule, AngularMaterialModule],
+    ReactiveFormsModule,
+    AngularMaterialModule,
+  ],
 })
 export class PostModule {}

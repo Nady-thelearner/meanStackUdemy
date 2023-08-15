@@ -1,19 +1,21 @@
-const path = require("path")
+const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 const cors = require("cors");
 const postsRoutes = require("./routes/posts");
-const authRoutes = require("./routes/auth")
+const authRoutes = require("./routes/auth");
 
 const app = express();
 
 // app.use(cors({ origin: "http://localhost:4200" }));
-
+// app.use(cors());
 mongoose
   .connect(
-    "mongodb+srv://sknadeem419:wnKMEnI54uRzej2u@meanstack.tihqs9f.mongodb.net/meanStackDB?retryWrites=true&w=majority",
+    "mongodb+srv://sknadeem419:" +
+      process.env.MONGO_ATLAS_PASS +
+      "@meanstack.tihqs9f.mongodb.net/meanStackDB?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -25,7 +27,7 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/images", express.static(path.join("backend/images")))
+app.use("/images", express.static(path.join("backend/images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -41,6 +43,6 @@ app.use((req, res, next) => {
 });
 //wnKMEnI54uRzej2u  mogodb atlas pass
 app.use("/api/posts", postsRoutes);
-app.use("/api/user",authRoutes)
+app.use("/api/user", authRoutes);
 
 module.exports = app;

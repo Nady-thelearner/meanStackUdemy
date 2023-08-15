@@ -2,25 +2,33 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignUpComponent } from './auth/sign-up/sign-up.component';
-import { canActivate } from './auth/auth.guard';
 
+import { canActivate } from './auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: PostListComponent,
   },
-  { path: 'create', component: PostCreateComponent , canActivate : [canActivate]},
-  { path: 'edit/:postId', component: PostCreateComponent , canActivate : [canActivate] },
-  {path : 'login' , component : LoginComponent},
-  {path : 'signup' , component : SignUpComponent}
+  {
+    path: 'create',
+    component: PostCreateComponent,
+    canActivate: [canActivate],
+  },
+  {
+    path: 'edit/:postId',
+    component: PostCreateComponent,
+    canActivate: [canActivate],
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('../app/auth/auth.module').then((m) => m.AuthModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-
 })
 export class AppRoutingModule {}

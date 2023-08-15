@@ -5,8 +5,9 @@ import { map } from 'rxjs/operators';
 
 import { Post } from './post.model';
 import { Router } from '@angular/router';
-import { authService } from '../auth/auth.service';
+import { enviroment } from '../enviroments/enviroment';
 
+const BACKEND_URL = enviroment.apiUrl +'/posts/';
 @Injectable({ providedIn: 'root' })
 export class PostsService {
   private posts: Post[] = [];
@@ -19,7 +20,7 @@ export class PostsService {
     console.log('Get Post caled');
     this.http
       .get<{ message: string; posts: any; postCount: number }>(
-        'http://localhost:3000/api/posts' + queryParams
+        BACKEND_URL + queryParams
       )
       .pipe(
         map((postData) => {
@@ -49,7 +50,7 @@ export class PostsService {
   }
 
   getPost(id: string) {
-    const url = 'http://localhost:3000/api/posts/' + id;
+    const url = BACKEND_URL + id;
     return this.http.get<{
       _id: string;
       title: string;
@@ -72,10 +73,7 @@ export class PostsService {
     postData.append('image', image, title);
     // const post: Post = { id: '', title: title, content: content };
     this.http
-      .post<{ message: string; post: Post }>(
-        'http://localhost:3000/api/posts',
-        postData
-      )
+      .post<{ message: string; post: Post }>(BACKEND_URL, postData)
       .subscribe((responseData) => {
         console.log('Post add message--->', responseData.message);
         this.route.navigate(['/']);
@@ -83,7 +81,7 @@ export class PostsService {
   }
 
   deletePost(id: string) {
-    const url = 'http://localhost:3000/api/posts/' + id;
+    const url = BACKEND_URL + id;
     console.log('url', url);
     return this.http.delete(url);
   }
@@ -107,7 +105,7 @@ export class PostsService {
       };
     }
     const post = { id: id, title: title, content: content };
-    const url = 'http://localhost:3000/api/posts/' + id;
+    const url = BACKEND_URL + id;
     this.http.put(url, postData).subscribe((message) => {
       console.log('messageee', message);
       this.route.navigate(['/']);

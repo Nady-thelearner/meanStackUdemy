@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGO_ATLAS_PASS": "wnKMEnI54uRzej2u",
+    "JWT_KEY": "Some_salting_string_which_needs_to_be_even_longer"
+  }
+}
